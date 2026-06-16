@@ -35,6 +35,12 @@ const buttonClasses = computed(() => {
   }
 })
 
+const animationClass = computed(() => {
+  if (props.state === 'correct') return 'animate-scale-up'
+  if (props.state === 'incorrect') return 'animate-shake'
+  return ''
+})
+
 const badgeClasses = computed(() => {
   switch (props.state) {
     case 'default':
@@ -54,7 +60,7 @@ const badgeClasses = computed(() => {
     :disabled="!isClickable"
     @click="handleClick"
     class="relative w-full rounded-lg p-4 text-left font-medium transition-all duration-200 border disabled:opacity-100"
-    :class="buttonClasses"
+    :class="[buttonClasses, animationClass]"
   >
     <span
       class="absolute top-2 left-2 flex items-center justify-center w-6 h-6 rounded text-xs font-bold"
@@ -65,3 +71,25 @@ const badgeClasses = computed(() => {
     <span class="block text-center">{{ text }}</span>
   </button>
 </template>
+
+<style scoped>
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+@keyframes scale-up {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-in-out;
+}
+
+.animate-scale-up {
+  animation: scale-up 0.3s ease-in-out;
+}
+</style>

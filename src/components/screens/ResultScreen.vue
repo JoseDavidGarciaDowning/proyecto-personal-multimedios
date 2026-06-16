@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useGameStore } from '../../stores/gameStore'
+import { useSound } from '../../composables/useSound'
 import { formatRelativeDate } from '../../composables/useRelativeTime'
 import { useResults } from '../../composables/useResults'
 import { useResultAnimation } from '../../composables/useResultAnimation'
@@ -9,24 +11,47 @@ import { useResultKeyboard } from '../../composables/useResultKeyboard'
 import QuestionCountSelector from '../ui/QuestionCountSelector.vue'
 
 const store = useGameStore()
-const { correctAnswers, totalQuestions, averageTime, messageText } = useResults()
+const sound = useSound()
+const { correctAnswers, totalQuestions, averageTime, messageText, percentCorrect } = useResults()
 const { isScoreAnimating, animatedScore } = useResultAnimation()
 const { expandedExplanations, questionDetails, toggleExplanation } = useResultDetail()
 const { isConfigModalOpen, openConfigModal, closeConfigModal } = useConfigModal()
 
 useResultKeyboard(isScoreAnimating, isConfigModalOpen)
+
+onMounted(() => {
+  sound.playResult(percentCorrect.value)
+})
 </script>
 
 <template>
   <div class="relative flex min-h-screen flex-col items-center bg-slate-900 px-6 py-8">
-    <button
-      @click="openConfigModal"
-      class="fixed top-4 right-4 z-40 inline-flex items-center rounded-lg bg-slate-800 p-2 text-slate-300 transition hover:bg-slate-700 md:px-4 md:py-2"
-      aria-label="Configuración"
-    >
-      <span aria-hidden="true" class="mr-0 text-xl leading-none md:mr-1.5">&#9881;</span>
-      <span class="hidden md:inline text-sm">Configuración</span>
-    </button>
+    <div class="fixed top-4 right-4 z-40 flex items-center gap-2">
+      <button
+        @click="sound.toggleMute()"
+        class="rounded-lg bg-slate-800 p-2 opacity-50 hover:opacity-100 transition-opacity"
+        aria-label="Silenciar sonidos"
+      >
+        <svg v-if="sound.isMuted.value" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+        <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <path d="M19.07 4.93a10 10 0 010 14.14"/>
+          <path d="M15.54 8.46a5 5 0 010 7.07"/>
+        </svg>
+      </button>
+      <button
+        @click="openConfigModal"
+        class="inline-flex items-center rounded-lg bg-slate-800 p-2 text-slate-300 transition hover:bg-slate-700 md:px-4 md:py-2"
+        aria-label="Configuración"
+      >
+        <span aria-hidden="true" class="mr-0 text-xl leading-none md:mr-1.5">&#9881;</span>
+        <span class="hidden md:inline text-sm">Configuración</span>
+      </button>
+    </div>
 
     <div class="w-full max-w-2xl">
       <section class="mb-10 text-center">

@@ -6,12 +6,14 @@ import ProgressBar from '../ui/ProgressBar.vue'
 import TimerBar from '../ui/Timer.vue'
 import QuestionCard from '../ui/QuestionCard.vue'
 import AnswerButton from '../ui/AnswerButton.vue'
+import { useSound } from '../../composables/useSound'
 import type { Question } from '../../types/question'
 
 type ButtonState = 'default' | 'correct' | 'incorrect' | 'revealed'
 
 const store = useGameStore()
 const timer = useTimer()
+const sound = useSound()
 
 const isAnswering = ref(false)
 const selectedOptionIndex = ref<number | null>(null)
@@ -62,6 +64,12 @@ function handleSelect(optionIndex: number) {
   timer.stop()
   store.selectAnswer(optionIndex, timer.timeRemaining.value, timer.totalTime.value)
 
+  if (currentQuestion.value && optionIndex === currentQuestion.value.correctAnswer) {
+    sound.playCorrect()
+  } else {
+    sound.playError()
+  }
+
   feedbackTimeoutId = setTimeout(() => {
     isAnswering.value = false
     selectedOptionIndex.value = null
@@ -93,6 +101,7 @@ timer.onTimeout(() => {
   isAnswering.value = true
 
   store.selectAnswer(null, 0, timer.totalTime.value)
+  sound.playError()
 
   feedbackTimeoutId = setTimeout(() => {
     isAnswering.value = false
@@ -121,6 +130,22 @@ onUnmounted(() => {
       <span class="text-sm font-semibold text-cyan-400 ml-4 whitespace-nowrap">
         {{ store.score }} pts
       </span>
+      <button
+        @click="sound.toggleMute()"
+        class="ml-4 p-1 opacity-50 hover:opacity-100 transition-opacity"
+        aria-label="Silenciar sonidos"
+      >
+        <svg v-if="sound.isMuted.value" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <line x1="23" y1="9" x2="17" y2="15"/>
+          <line x1="17" y1="9" x2="23" y2="15"/>
+        </svg>
+        <svg v-else width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M11 5L6 9H2v6h4l5 4V5z"/>
+          <path d="M19.07 4.93a10 10 0 010 14.14"/>
+          <path d="M15.54 8.46a5 5 0 010 7.07"/>
+        </svg>
+      </button>
     </header>
 
     <div class="px-6 pb-2">

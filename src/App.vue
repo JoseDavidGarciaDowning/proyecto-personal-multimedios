@@ -1,10 +1,17 @@
 <script setup lang="ts">
+import { onMounted } from 'vue'
 import { useGameStore } from './stores/gameStore'
+import { useSound } from './composables/useSound'
 import StartScreen from './components/screens/StartScreen.vue'
 import GameScreen from './components/screens/GameScreen.vue'
 import ResultScreen from './components/screens/ResultScreen.vue'
 
 const store = useGameStore()
+const sound = useSound()
+
+onMounted(() => {
+  sound.preload()
+})
 </script>
 
 <template>
