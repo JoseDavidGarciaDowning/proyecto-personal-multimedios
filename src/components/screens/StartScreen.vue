@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useGameStore } from '../../stores/gameStore'
 import { formatRelativeDate } from '../../composables/useRelativeTime'
+import QuestionCountSelector from '../ui/QuestionCountSelector.vue'
 
 const store = useGameStore()
 
@@ -47,21 +48,7 @@ onMounted(async () => {
     <p class="mb-8 text-lg text-slate-400">
       Poné a prueba tus conocimientos de JavaScript y CSS
     </p>
-    <div class="mb-8 flex gap-3">
-      <button
-        v-for="count in ([5, 10, 15] as const)"
-        :key="count"
-        @click="store.questionCount = count"
-        :class="[
-          'rounded-full px-5 py-2 text-sm font-medium transition',
-          store.questionCount === count
-            ? 'bg-emerald-500 text-slate-900'
-            : 'bg-slate-700 text-slate-300 hover:bg-slate-600',
-        ]"
-      >
-        {{ count }}
-      </button>
-    </div>
+    <QuestionCountSelector class="mb-8" />
     <div class="mb-8 w-full max-w-md">
       <h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-slate-500">
         Historial reciente

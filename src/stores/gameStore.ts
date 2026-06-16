@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { Question, Answer, HistoryEntry } from '../types/question'
 import { useHistory } from '../composables/useHistory'
 
@@ -32,6 +32,20 @@ export const useGameStore = defineStore('game', () => {
   const questionCount = ref<5 | 10 | 15>(10)
   const history = ref<HistoryEntry[]>(loadHistory())
 
+  const bestStreak = computed(() => {
+    let max = 0
+    let current = 0
+    for (const a of answers.value) {
+      if (a.correct) {
+        current++
+        max = Math.max(max, current)
+      } else {
+        current = 0
+      }
+    }
+    return max
+  })
+
   function navigateTo(screen: Screen) {
     currentScreen.value = screen
   }
@@ -58,9 +72,15 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function getDifficultyTime(index: number): number {
-    const q = currentQuestions.value[index]
-    if (!q) return 30
-    return DIFFICULTY_TIME[q.difficulty] ?? 30
+    const question = currentQuestions.value[index]
+    if (!question) return 30
+    return DIFFICULTY_TIME[question.difficulty] ?? 30
+  }
+
+  function getDifficultyByQuestionId(questionId: number): number {
+    const question = currentQuestions.value.find((q) => q.id === questionId)
+    if (!question) return 30
+    return DIFFICULTY_TIME[question.difficulty] ?? 30
   }
 
   function selectAnswer(optionIndex: number | null, timeRemaining: number, totalTime: number) {
@@ -121,10 +141,12 @@ export const useGameStore = defineStore('game', () => {
     answers,
     questionCount,
     history,
+    bestStreak,
     navigateTo,
     loadQuestions,
     startGame,
     getDifficultyTime,
+    getDifficultyByQuestionId,
     selectAnswer,
     nextQuestion,
     saveToHistory,
