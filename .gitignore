@@ -23,6 +23,12 @@ dist-ssr
 *.sln
 *.sw?
 
+# Playwright (testing local)
+playwright.config.ts
+e2e/
+playwright-report/
+test-results/
+
 # Documentation and planning
 specs/
 DECISIONES.md

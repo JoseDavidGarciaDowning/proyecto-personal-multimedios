@@ -1,4 +1,4 @@
-import { ref, onUnmounted, type Ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 
 export function useTimer() {
   const timeRemaining = ref(0)

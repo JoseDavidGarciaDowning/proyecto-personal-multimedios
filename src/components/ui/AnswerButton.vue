@@ -59,7 +59,7 @@ const badgeClasses = computed(() => {
   <button
     :disabled="!isClickable"
     @click="handleClick"
-    class="relative w-full rounded-lg p-4 text-left font-medium transition-all duration-200 border disabled:opacity-100"
+    class="relative w-full rounded-lg px-4 py-3 md:px-6 md:py-4 text-sm md:text-base text-left font-medium transition-all duration-200 border disabled:opacity-100 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
     :class="[buttonClasses, animationClass]"
   >
     <span

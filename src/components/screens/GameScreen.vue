@@ -19,14 +19,14 @@ const {
 
 <template>
   <div class="flex min-h-screen flex-col">
-    <header class="flex items-center justify-between px-6 pt-4 pb-2">
+    <header class="flex items-center justify-between px-4 md:px-6 pt-4 pb-2">
       <ProgressBar :current="store.currentQuestionIndex + 1" :total="totalQuestions" />
-      <span class="text-sm font-semibold text-cyan-400 ml-4 whitespace-nowrap">
+      <span class="text-sm font-semibold text-cyan-400 ml-2 md:ml-4 whitespace-nowrap">
         {{ store.score }} pts
       </span>
       <button
         @click="sound.toggleMute()"
-        class="ml-4 p-1 opacity-50 hover:opacity-100 transition-opacity"
+        class="ml-2 md:ml-4 p-1 opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         aria-label="Silenciar sonidos"
       >
         <svg v-if="sound.isMuted.value" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -42,7 +42,7 @@ const {
       </button>
     </header>
 
-    <div class="px-6 pb-2">
+    <div class="px-4 md:px-6 pb-2">
       <TimerBar
         :time-remaining="timer.timeRemaining.value"
         :total-time="timer.totalTime.value"
@@ -51,10 +51,10 @@ const {
 
     <div v-if="currentQuestion" class="flex-1 flex flex-col items-center justify-center px-6 pb-6">
       <Transition name="fade" mode="out-in">
-        <div :key="store.currentQuestionIndex" class="w-full max-w-2xl">
+        <div :key="store.currentQuestionIndex" class="w-full max-w-lg md:max-w-2xl">
           <QuestionCard :question="currentQuestion" />
 
-          <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+          <div class="mt-6 flex flex-col gap-3 md:grid md:grid-cols-2 md:gap-4">
             <AnswerButton
               v-for="(option, index) in currentQuestion.options"
               :key="index"

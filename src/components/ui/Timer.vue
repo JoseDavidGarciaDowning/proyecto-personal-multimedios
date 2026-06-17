@@ -13,7 +13,7 @@ const percentage = computed(() => {
 </script>
 
 <template>
-  <div class="w-full h-2 bg-slate-700 rounded-full overflow-hidden">
+  <div class="w-full h-1.5 md:h-2 bg-slate-700 rounded-full overflow-hidden">
     <div
       class="h-full rounded-full transition-all duration-1000 ease-linear"
       :class="{
