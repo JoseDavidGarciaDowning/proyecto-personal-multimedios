@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: 'Inter', sans-serif;
+  --font-sans: 'Onest', sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   --color-primary: #10b981;
-  --color-accent: #06b6d4;
-  --color-bg-dark: #0f172a;
-  --color-bg-card: #1e293b;
-  --color-text: #f1f5f9;
-  --color-text-muted: #94a3b8;
+  --color-accent: #22d3ee;
+  --color-bg-dark: #070b16;
+  --color-bg-card: #111827;
+  --color-text: #e2e8f0;
+  --color-text-muted: #64748b;
 }
 
 body {
@@ -17,8 +17,49 @@ body {
   font-family: var(--font-sans);
   background-color: var(--color-bg-dark);
   color: var(--color-text);
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+#app {
+  position: relative;
+  z-index: 1;
 }
 
 code {
   font-family: var(--font-mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

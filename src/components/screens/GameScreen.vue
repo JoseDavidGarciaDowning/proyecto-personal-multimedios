@@ -26,7 +26,7 @@ const {
       </span>
       <button
         @click="sound.toggleMute()"
-        class="ml-2 md:ml-4 p-1 opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+        class="ml-2 md:ml-4 p-1.5 rounded-lg bg-white/[0.04] opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         aria-label="Silenciar sonidos"
       >
         <svg v-if="sound.isMuted.value" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

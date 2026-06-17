@@ -25,13 +25,13 @@ function handleClick() {
 const buttonClasses = computed(() => {
   switch (props.state) {
     case 'default':
-      return 'bg-slate-700 border-slate-600 text-slate-100 hover:bg-slate-600 hover:border-slate-500'
+      return 'bg-white/[0.04] border-white/[0.06] text-slate-100 hover:bg-emerald-500/10 hover:border-emerald-500/30 hover:shadow-[0_0_20px_-5px_rgba(16,185,129,0.15)]'
     case 'correct':
-      return 'bg-emerald-600 border-emerald-500 text-white'
+      return 'bg-emerald-500/20 border-emerald-500/40 text-emerald-200 shadow-[0_0_24px_-6px_rgba(16,185,129,0.25)]'
     case 'incorrect':
-      return 'bg-red-600 border-red-500 text-white'
+      return 'bg-red-500/15 border-red-500/40 text-red-200 shadow-[0_0_24px_-6px_rgba(239,68,68,0.2)]'
     case 'revealed':
-      return 'bg-slate-700/40 border-slate-700/50 text-slate-500'
+      return 'bg-white/[0.02] border-white/[0.03] text-slate-600'
   }
 })
 
@@ -44,13 +44,13 @@ const animationClass = computed(() => {
 const badgeClasses = computed(() => {
   switch (props.state) {
     case 'default':
-      return 'bg-slate-600 text-slate-300'
+      return 'bg-white/[0.06] text-slate-400'
     case 'correct':
       return 'bg-emerald-500 text-slate-900'
     case 'incorrect':
       return 'bg-red-500 text-white'
     case 'revealed':
-      return 'bg-slate-600/50 text-slate-500'
+      return 'bg-white/[0.03] text-slate-600'
   }
 })
 </script>

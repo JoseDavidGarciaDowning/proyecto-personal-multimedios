@@ -25,11 +25,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative flex min-h-screen flex-col items-center bg-slate-900 px-4 md:px-6 py-6 md:py-8">
+  <div class="relative flex min-h-screen flex-col items-center px-4 md:px-6 py-6 md:py-8">
     <div class="fixed top-4 right-4 z-40 flex items-center gap-2">
       <button
         @click="sound.toggleMute()"
-        class="rounded-lg bg-slate-800 p-2 opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+        class="rounded-lg bg-white/[0.04] p-2 opacity-50 hover:opacity-100 transition-opacity focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         aria-label="Silenciar sonidos"
       >
         <svg v-if="sound.isMuted.value" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -45,7 +45,7 @@ onMounted(() => {
       </button>
       <button
         @click="openConfigModal"
-        class="inline-flex items-center rounded-lg bg-slate-800 p-2 text-slate-300 transition hover:bg-slate-700 md:px-4 md:py-2 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+        class="inline-flex items-center rounded-lg bg-white/[0.04] p-2 text-slate-300 transition hover:bg-white/[0.08] md:px-4 md:py-2 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         aria-label="Configuración"
       >
         <span aria-hidden="true" class="mr-0 text-xl leading-none md:mr-1.5">&#9881;</span>
@@ -56,7 +56,7 @@ onMounted(() => {
     <div class="w-full max-w-2xl">
       <section class="mb-8 md:mb-10 text-center">
         <p class="text-base md:text-lg text-slate-400">Puntaje</p>
-        <p class="text-5xl md:text-7xl font-bold text-emerald-400">{{ animatedScore }}</p>
+        <p class="text-5xl md:text-7xl font-bold tracking-tight text-emerald-400 drop-shadow-[0_0_24px_rgba(16,185,129,0.25)]">{{ animatedScore }}</p>
         <Transition name="fade">
           <p v-if="!isScoreAnimating" class="mt-4 text-xl md:text-2xl font-bold text-cyan-300">
             {{ messageText }}
@@ -67,15 +67,15 @@ onMounted(() => {
       <section class="mb-8 md:mb-10">
         <p class="text-2xl md:text-3xl font-semibold text-cyan-400">Estadísticas</p>
         <div class="mt-3 flex flex-col gap-3 md:flex-row md:gap-4 text-center">
-          <div class="flex-1 rounded-lg bg-slate-800 p-4">
+          <div class="flex-1 rounded-lg bg-white/[0.03] border border-white/[0.05] p-4">
             <p class="text-xs md:text-sm text-slate-500">Aciertos</p>
             <p class="text-lg md:text-xl font-bold text-slate-100">{{ correctAnswers }}/{{ totalQuestions }}</p>
           </div>
-          <div class="flex-1 rounded-lg bg-slate-800 p-4">
+          <div class="flex-1 rounded-lg bg-white/[0.03] border border-white/[0.05] p-4">
             <p class="text-xs md:text-sm text-slate-500">Tiempo promedio</p>
             <p class="text-lg md:text-xl font-bold text-slate-100">{{ averageTime.toFixed(1) }}s</p>
           </div>
-          <div class="flex-1 rounded-lg bg-slate-800 p-4">
+          <div class="flex-1 rounded-lg bg-white/[0.03] border border-white/[0.05] p-4">
             <p class="text-xs md:text-sm text-slate-500">Mejor racha</p>
             <p class="text-lg md:text-xl font-bold text-slate-100">{{ store.bestStreak }}</p>
           </div>
@@ -88,7 +88,7 @@ onMounted(() => {
           <div
             v-for="(detail, index) in questionDetails"
             :key="index"
-            class="rounded-lg bg-slate-800 p-4"
+            class="rounded-lg bg-white/[0.03] border border-white/[0.05] p-4"
           >
             <div class="flex items-start gap-3">
               <span
@@ -134,7 +134,7 @@ onMounted(() => {
           <li
             v-for="(entry, index) in store.history.slice(0, 3)"
             :key="index"
-            class="flex items-center justify-between rounded-lg bg-slate-800 px-4 py-3"
+            class="flex items-center justify-between rounded-lg bg-white/[0.03] border border-white/[0.05] px-4 py-3"
           >
             <span class="text-sm text-slate-300">
               {{ entry.correct }}/{{ entry.total }} correctas
@@ -150,13 +150,13 @@ onMounted(() => {
       <section v-if="!isScoreAnimating" class="flex flex-col gap-3 md:flex-row md:gap-4">
         <button
           @click="store.startGame()"
-          class="flex-1 rounded-lg bg-emerald-500 px-6 py-3 md:px-8 md:py-4 text-base md:text-lg font-semibold text-slate-900 transition hover:bg-emerald-400 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+          class="flex-1 rounded-lg bg-emerald-500 px-6 py-3 md:px-8 md:py-4 text-base md:text-lg font-semibold text-slate-900 transition-all duration-200 hover:bg-emerald-400 hover:shadow-[0_0_30px_-8px_rgba(16,185,129,0.4)] focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         >
           Jugar de nuevo
         </button>
         <button
           @click="store.navigateTo('start')"
-          class="flex-1 rounded-lg border border-slate-600 px-6 py-3 md:px-8 md:py-4 text-base md:text-lg font-semibold text-slate-300 transition hover:bg-slate-800 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+          class="flex-1 rounded-lg border border-white/[0.08] px-6 py-3 md:px-8 md:py-4 text-base md:text-lg font-semibold text-slate-300 transition-all duration-200 hover:bg-white/[0.04] hover:border-white/[0.12] focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
         >
           Volver al inicio
         </button>
@@ -167,10 +167,10 @@ onMounted(() => {
       <Transition name="fade">
         <div
           v-if="isConfigModalOpen"
-          class="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/80"
+          class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm"
           @click.self="closeConfigModal"
         >
-          <div class="w-[90vw] md:w-96 rounded-xl bg-slate-800 p-6 shadow-2xl">
+          <div class="w-[90vw] md:w-96 rounded-xl bg-[#111827] border border-white/[0.08] p-6 shadow-2xl shadow-black/40">
             <h2 class="mb-6 text-center text-lg font-semibold text-slate-100">
               Preguntas por partida
             </h2>
@@ -180,7 +180,7 @@ onMounted(() => {
             </p>
             <button
               @click="closeConfigModal"
-              class="w-full rounded-lg bg-emerald-500 py-3 text-sm font-semibold text-slate-900 transition hover:bg-emerald-400 focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
+              class="w-full rounded-lg bg-emerald-500 py-3 text-sm font-semibold text-slate-900 transition-all duration-200 hover:bg-emerald-400 hover:shadow-[0_0_24px_-6px_rgba(16,185,129,0.4)] focus-visible:outline-2 focus-visible:outline-cyan-400 focus-visible:outline-offset-2"
             >
               Listo
             </button>
