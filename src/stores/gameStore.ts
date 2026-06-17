@@ -26,7 +26,7 @@ export const useGameStore = defineStore('game', () => {
   const currentScreen = ref<Screen>('start')
   const questions = ref<Question[]>([])
   const currentQuestions = ref<Question[]>([])
-  const currentIndex = ref(0)
+  const currentQuestionIndex = ref(0)
   const score = ref(0)
   const answers = ref<Answer[]>([])
   const questionCount = ref<5 | 10 | 15>(10)
@@ -65,16 +65,10 @@ export const useGameStore = defineStore('game', () => {
   function startGame() {
     const selected = shuffle(questions.value).slice(0, questionCount.value)
     currentQuestions.value = selected
-    currentIndex.value = 0
+    currentQuestionIndex.value = 0
     score.value = 0
     answers.value = []
     currentScreen.value = 'game'
-  }
-
-  function getDifficultyTime(index: number): number {
-    const question = currentQuestions.value[index]
-    if (!question) return 30
-    return DIFFICULTY_TIME[question.difficulty] ?? 30
   }
 
   function getDifficultyByQuestionId(questionId: number): number {
@@ -84,7 +78,7 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function selectAnswer(optionIndex: number | null, timeRemaining: number, totalTime: number) {
-    const question = currentQuestions.value[currentIndex.value]
+    const question = currentQuestions.value[currentQuestionIndex.value]
     if (!question) return
 
     const correct = optionIndex === question.correctAnswer
@@ -105,11 +99,11 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function nextQuestion() {
-    if (currentIndex.value >= currentQuestions.value.length - 1) {
+    if (currentQuestionIndex.value >= currentQuestions.value.length - 1) {
       saveToHistory()
       currentScreen.value = 'result'
     } else {
-      currentIndex.value++
+      currentQuestionIndex.value++
     }
   }
 
@@ -136,7 +130,7 @@ export const useGameStore = defineStore('game', () => {
     currentScreen,
     questions,
     currentQuestions,
-    currentIndex,
+    currentQuestionIndex,
     score,
     answers,
     questionCount,
@@ -145,7 +139,6 @@ export const useGameStore = defineStore('game', () => {
     navigateTo,
     loadQuestions,
     startGame,
-    getDifficultyTime,
     getDifficultyByQuestionId,
     selectAnswer,
     nextQuestion,
