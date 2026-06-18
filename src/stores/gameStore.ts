@@ -6,6 +6,7 @@ import { useHistory } from '../composables/useHistory'
 export type Screen = 'start' | 'game' | 'result' | 'error'
 
 const SESSION_KEY = 'devchallenge:game-state'
+const PREFS_KEY = 'devchallenge:prefs'
 
 const DIFFICULTY_TIME: Record<string, number> = {
   easy: 15,
@@ -141,6 +142,15 @@ export const useGameStore = defineStore('game', () => {
 
   function tryResume() {
     const raw = sessionStorage.getItem(SESSION_KEY)
+    const prefs = sessionStorage.getItem(PREFS_KEY)
+
+    if (prefs) {
+      try {
+        const p = JSON.parse(prefs)
+        if (p.questionCount) questionCount.value = p.questionCount
+      } catch { sessionStorage.removeItem(PREFS_KEY) }
+    }
+
     if (!raw) return false
     try {
       const state = JSON.parse(raw)
@@ -160,6 +170,10 @@ export const useGameStore = defineStore('game', () => {
 
   watch(currentScreen, (screen) => {
     if (screen === 'result') saveToSession()
+  })
+
+  watch(questionCount, (val) => {
+    sessionStorage.setItem(PREFS_KEY, JSON.stringify({ questionCount: val }))
   })
 
   return {

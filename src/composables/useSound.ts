@@ -1,10 +1,22 @@
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+
+const MUTE_KEY = 'devchallenge:muted'
 
 const isMuted = ref(false)
+
+watch(isMuted, (val) => {
+  sessionStorage.setItem(MUTE_KEY, String(val))
+})
+
+function restoreMute() {
+  const saved = sessionStorage.getItem(MUTE_KEY)
+  if (saved !== null) isMuted.value = saved === 'true'
+}
 
 const sounds: Record<string, HTMLAudioElement> = {}
 
 function preload() {
+  restoreMute()
   const base = import.meta.env.BASE_URL
   sounds.correct = new Audio(base + 'sounds/correct.mp3')
   sounds.error = new Audio(base + 'sounds/error.mp3')
