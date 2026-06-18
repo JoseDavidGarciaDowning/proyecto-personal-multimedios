@@ -136,31 +136,38 @@ export const useGameStore = defineStore('game', () => {
       currentQuestions: currentQuestions.value,
       answers: answers.value,
       score: score.value,
-      questionCount: questionCount.value,
     }))
   }
 
   function tryResume() {
     const raw = sessionStorage.getItem(SESSION_KEY)
-    const prefs = sessionStorage.getItem(PREFS_KEY)
 
-    if (prefs) {
-      try {
-        const p = JSON.parse(prefs)
-        if (p.questionCount) questionCount.value = p.questionCount
-      } catch { sessionStorage.removeItem(PREFS_KEY) }
+    if (!raw) {
+      const prefs = sessionStorage.getItem(PREFS_KEY)
+      if (prefs) {
+        try {
+          const p = JSON.parse(prefs)
+          if (p.questionCount) questionCount.value = p.questionCount
+        } catch { sessionStorage.removeItem(PREFS_KEY) }
+      }
+      return false
     }
-
-    if (!raw) return false
     try {
       const state = JSON.parse(raw)
       if (!state.currentQuestions?.length || !state.answers?.length) return false
       currentQuestions.value = state.currentQuestions
       answers.value = state.answers
       score.value = state.score ?? 0
-      questionCount.value = state.questionCount ?? 10
       currentScreen.value = 'result'
       sessionStorage.removeItem(SESSION_KEY)
+
+      const prefs = sessionStorage.getItem(PREFS_KEY)
+      if (prefs) {
+        try {
+          const p = JSON.parse(prefs)
+          if (p.questionCount) questionCount.value = p.questionCount
+        } catch { sessionStorage.removeItem(PREFS_KEY) }
+      }
       return true
     } catch {
       sessionStorage.removeItem(SESSION_KEY)
@@ -170,6 +177,7 @@ export const useGameStore = defineStore('game', () => {
 
   watch(currentScreen, (screen) => {
     if (screen === 'result') saveToSession()
+    if (screen === 'start') sessionStorage.removeItem(SESSION_KEY)
   })
 
   watch(questionCount, (val) => {
