@@ -50,7 +50,7 @@ const {
     </div>
 
     <div v-if="currentQuestion" class="flex-1 flex flex-col items-center justify-center px-6 pb-6">
-      <Transition name="fade" mode="out-in">
+      <Transition name="question" mode="out-in">
         <div :key="store.currentQuestionIndex" class="w-full max-w-lg md:max-w-2xl">
           <QuestionCard :question="currentQuestion" />
 
@@ -76,13 +76,23 @@ const {
 </template>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.3s ease;
+.question-enter-active {
+  transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.fade-enter-from,
-.fade-leave-to {
+.question-leave-active {
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.question-enter-from {
   opacity: 0;
+  transform: translateY(18px) scale(0.98);
+}
+
+.question-leave-to {
+  opacity: 0;
+  transform: translateY(-12px) scale(0.98);
 }
 </style>
