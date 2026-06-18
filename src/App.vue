@@ -23,25 +23,5 @@ onMounted(() => {
       <ResultScreen v-else-if="store.currentScreen === 'result'" />
     </main>
 
-    <div class="fixed bottom-4 right-4 z-30 flex gap-2 p-2 bg-white/[0.04] backdrop-blur-sm rounded-lg border border-white/[0.06]">
-      <button
-        @click="store.navigateTo('start')"
-        class="px-3 py-1 text-sm rounded bg-emerald-600 hover:bg-emerald-500 transition focus-visible:outline-2 focus-visible:outline-cyan-400"
-      >
-        Start
-      </button>
-      <button
-        @click="store.navigateTo('game')"
-        class="px-3 py-1 text-sm rounded bg-cyan-600 hover:bg-cyan-500 transition focus-visible:outline-2 focus-visible:outline-cyan-400"
-      >
-        Game
-      </button>
-      <button
-        @click="store.navigateTo('result')"
-        class="px-3 py-1 text-sm rounded bg-purple-600 hover:bg-purple-500 transition focus-visible:outline-2 focus-visible:outline-cyan-400"
-      >
-        Result
-      </button>
-    </div>
   </div>
 </template>
