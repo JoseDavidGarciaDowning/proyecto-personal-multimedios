@@ -79,11 +79,11 @@ public/
 
 ## Capturas de pantalla
 
-<!-- TODO: Agregar capturas de las 3 pantallas: inicio, juego y resultado -->
-
-| Inicio | Juego | Resultado |
+| | | |
 |--------|-------|-----------|
-| ![](screenshots/start.png) | ![](screenshots/game.png) | ![](screenshots/result.png) |
+| ![](screen-shots/01.png) | ![](screen-shots/02.png) | ![](screen-shots/03.png) |
+| ![](screen-shots/04.png) | ![](screen-shots/05.png) | ![](screen-shots/06.png) |
+| ![](screen-shots/07.png) | | |
 
 ## Autor
 
