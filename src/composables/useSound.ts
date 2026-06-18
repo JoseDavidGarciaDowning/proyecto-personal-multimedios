@@ -5,11 +5,12 @@ const isMuted = ref(false)
 const sounds: Record<string, HTMLAudioElement> = {}
 
 function preload() {
-  sounds.correct = new Audio('/sounds/correct.mp3')
-  sounds.error = new Audio('/sounds/error.mp3')
-  sounds.resultExcellent = new Audio('/sounds/result-excellent.mp3')
-  sounds.resultGood = new Audio('/sounds/result-good.mp3')
-  sounds.resultPractice = new Audio('/sounds/result-practice.mp3')
+  const base = import.meta.env.BASE_URL
+  sounds.correct = new Audio(base + 'sounds/correct.mp3')
+  sounds.error = new Audio(base + 'sounds/error.mp3')
+  sounds.resultExcellent = new Audio(base + 'sounds/result-excellent.mp3')
+  sounds.resultGood = new Audio(base + 'sounds/result-good.mp3')
+  sounds.resultPractice = new Audio(base + 'sounds/result-practice.mp3')
 }
 
 function play(name: string) {

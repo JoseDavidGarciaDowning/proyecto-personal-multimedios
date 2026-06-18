@@ -52,7 +52,7 @@ export const useGameStore = defineStore('game', () => {
 
   async function loadQuestions() {
     try {
-      const res = await fetch('/questions.json')
+      const res = await fetch(import.meta.env.BASE_URL + 'questions.json')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       if (!Array.isArray(data) || data.length === 0) throw new Error('Empty or invalid data')
