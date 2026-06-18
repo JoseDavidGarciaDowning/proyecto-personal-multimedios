@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 import type { Question, Answer, HistoryEntry } from '../types/question'
 import { useHistory } from '../composables/useHistory'
 
 export type Screen = 'start' | 'game' | 'result' | 'error'
+
+const SESSION_KEY = 'devchallenge:game-state'
 
 const DIFFICULTY_TIME: Record<string, number> = {
   easy: 15,
@@ -51,6 +53,7 @@ export const useGameStore = defineStore('game', () => {
   }
 
   async function loadQuestions() {
+    if (questions.value.length > 0) return
     try {
       const res = await fetch(import.meta.env.BASE_URL + 'questions.json')
       if (!res.ok) throw new Error(`HTTP ${res.status}`)
@@ -63,6 +66,7 @@ export const useGameStore = defineStore('game', () => {
   }
 
   function startGame() {
+    sessionStorage.removeItem(SESSION_KEY)
     const selected = shuffle(questions.value).slice(0, questionCount.value)
     currentQuestions.value = selected
     currentQuestionIndex.value = 0
@@ -126,6 +130,38 @@ export const useGameStore = defineStore('game', () => {
     currentScreen.value = 'start'
   }
 
+  function saveToSession() {
+    sessionStorage.setItem(SESSION_KEY, JSON.stringify({
+      currentQuestions: currentQuestions.value,
+      answers: answers.value,
+      score: score.value,
+      questionCount: questionCount.value,
+    }))
+  }
+
+  function tryResume() {
+    const raw = sessionStorage.getItem(SESSION_KEY)
+    if (!raw) return false
+    try {
+      const state = JSON.parse(raw)
+      if (!state.currentQuestions?.length || !state.answers?.length) return false
+      currentQuestions.value = state.currentQuestions
+      answers.value = state.answers
+      score.value = state.score ?? 0
+      questionCount.value = state.questionCount ?? 10
+      currentScreen.value = 'result'
+      sessionStorage.removeItem(SESSION_KEY)
+      return true
+    } catch {
+      sessionStorage.removeItem(SESSION_KEY)
+      return false
+    }
+  }
+
+  watch(currentScreen, (screen) => {
+    if (screen === 'result') saveToSession()
+  })
+
   return {
     currentScreen,
     questions,
@@ -145,5 +181,6 @@ export const useGameStore = defineStore('game', () => {
     saveToHistory,
     setError,
     clearError,
+    tryResume,
   }
 })

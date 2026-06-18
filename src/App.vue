@@ -9,8 +9,10 @@ import ResultScreen from './components/screens/ResultScreen.vue'
 const store = useGameStore()
 const sound = useSound()
 
-onMounted(() => {
+onMounted(async () => {
   sound.preload()
+  await store.loadQuestions()
+  store.tryResume()
 })
 </script>
 
