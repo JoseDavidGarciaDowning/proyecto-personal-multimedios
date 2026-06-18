@@ -83,7 +83,6 @@ public/
 |--------|-------|-----------|
 | ![](screen-shots/01.png) | ![](screen-shots/02.png) | ![](screen-shots/03.png) |
 | ![](screen-shots/04.png) | ![](screen-shots/05.png) | ![](screen-shots/06.png) |
-| ![](screen-shots/07.png) | | |
 
 ## Autor
 
